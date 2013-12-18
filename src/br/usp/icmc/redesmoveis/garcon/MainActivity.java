@@ -79,7 +79,6 @@ public class MainActivity extends Activity {
 			               VolleyLog.e("Error: ", error.toString());
 			           }
 			       });
-
 	}
 	
 	public void fillMenu(JSONObject menu) {
