@@ -14,14 +14,14 @@
         android:text="Picanha"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <Button
+   <!--  <Button
         android:id="@+id/menu_item_order_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/menu_item_name"
         android:layout_marginRight="19dp"
-        android:text="Pedir" />
+        android:text="Pedir" /> -->
 
     <TextView
         android:id="@+id/menu_item_price"

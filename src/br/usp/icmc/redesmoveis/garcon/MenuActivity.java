@@ -64,7 +64,7 @@ public class MenuActivity extends Activity {
 			MenuItem menuItem = new MenuItem(currentId, currentName, currentPrice);
 			this.myMenuItems.add(menuItem);
 		}
-		populateListView();
+		
 	}
 	
 	
@@ -81,6 +81,7 @@ public class MenuActivity extends Activity {
 			               try {
 			                   VolleyLog.v("Response:%n %s", response.toString(4));
 			                   populateMenuItemsArray(response);
+			                   populateListView();
 			               } catch (JSONException e) {
 			                   e.printStackTrace();
 			               }
@@ -131,6 +132,8 @@ public class MenuActivity extends Activity {
 			TextView menuItemNameView = (TextView)itemView.findViewById(R.id.menu_item_name);
 			TextView menuItemPriceView = (TextView)itemView.findViewById(R.id.menu_item_price);
 			
+			menuItemNameView.setText(currentMenuItem.getName());
+			menuItemPriceView.setText(currentMenuItem.getPrice());
 			return itemView;
 		}
 		
