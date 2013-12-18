@@ -28,6 +28,14 @@
             android:name="br.usp.icmc.redesmoveis.garcon.MenuActivity"
             android:label="@string/menu_activity_title" >
         </activity>
-            </application>
+        <activity
+            android:name="br.usp.icmc.redesmoveis.garcon.OrderActivity"
+            android:label="@string/title_activity_order"
+            android:parentActivityName="MenuActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="MenuActivity" />
+        </activity>
+    </application>
 
 </manifest>

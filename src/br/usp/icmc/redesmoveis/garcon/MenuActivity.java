@@ -1,6 +1,7 @@
 package br.usp.icmc.redesmoveis.garcon;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -8,11 +9,13 @@ import org.json.JSONObject;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -29,6 +32,7 @@ import com.android.volley.toolbox.Volley;
 
 public class MenuActivity extends Activity {
 	private RequestQueue mRequestQueue;
+	private String tableNumber;
 	private String apiUrl = "http://192.168.1.105:3000";
 	protected ArrayList<MenuItem> myMenuItems = new ArrayList<MenuItem>();
 
@@ -36,8 +40,8 @@ public class MenuActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.menu_list_view);
+		this.tableNumber = getIntent().getExtras().getString("table_number");		
 		populateMenuItemsArrayAPICall();
-		
 	}
 
 	@Override
@@ -49,8 +53,49 @@ public class MenuActivity extends Activity {
 	
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
+	}
+	
+	public void okAlertDialog(String message) {
+        AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
+        dlgAlert.setMessage(message);
+        dlgAlert.setTitle(":D");
+        dlgAlert.setPositiveButton("OK", null);
+        dlgAlert.setCancelable(true);
+        dlgAlert.create().show();
+	}
+	
+	public void orderItemAPICall(View v) {
+		String itemId = (String) v.getTag();
+		System.out.println("Item id: " + itemId);
+
+		String URL = this.apiUrl + "/order.json";
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("table_number", this.tableNumber);
+		params.put("item_id", itemId);
+		
+		JsonObjectRequest req = new JsonObjectRequest(URL, new JSONObject(params),
+			       new Response.Listener<JSONObject>() {
+			           @Override
+			           public void onResponse(JSONObject response) {
+			               try {
+			                   VolleyLog.v("Response:%n %s", response.toString(4));
+			                   okAlertDialog("Pedido Realizado com Sucesso");
+			                   
+			               } catch (JSONException e) {
+			                   e.printStackTrace();
+			               }
+			           }
+			       }, new Response.ErrorListener() {
+			           @Override
+			           public void onErrorResponse(VolleyError error) {
+			               VolleyLog.e("Error: ", error.toString());
+			               okAlertDialog("Problemas detectados com seu pedido, tente novamente.");
+			           }
+			       });
+		
+		this.getRequestQueue().add(req);
+
 	}
 	
 	public void populateMenuItemsArray(JSONObject response) throws JSONException {
@@ -66,7 +111,6 @@ public class MenuActivity extends Activity {
 		}
 		
 	}
-	
 	
 	public void populateMenuItemsArrayAPICall() {
 		String resource = "/menu.json";
@@ -95,7 +139,10 @@ public class MenuActivity extends Activity {
 		
 		this.getRequestQueue().add(req);
 	}
-
+	
+	public void checkOrderStatus() {
+		
+	}
 
 	public RequestQueue getRequestQueue() {
 		if (this.mRequestQueue == null) {
@@ -113,7 +160,7 @@ public class MenuActivity extends Activity {
 	
 	private class MenuListAdapter extends ArrayAdapter<MenuItem> {
 		public MenuListAdapter() {
-			super(MenuActivity.this, R.layout.menu_item_view);
+			super(MenuActivity.this, 0, myMenuItems);
 		}
 
 		@Override
@@ -125,18 +172,18 @@ public class MenuActivity extends Activity {
 			}
 			
 			// Find the menu item to work with.
-			MenuItem currentMenuItem = myMenuItems.get(position);
-			System.out.println(currentMenuItem.getName());
+			MenuItem currentMenuItem = getItem(position);
 			
 			// Fill the view
 			TextView menuItemNameView = (TextView)itemView.findViewById(R.id.menu_item_name);
 			TextView menuItemPriceView = (TextView)itemView.findViewById(R.id.menu_item_price);
+			Button menuItemOrderButton = (Button)itemView.findViewById(R.id.menu_item_order_button);
 			
 			menuItemNameView.setText(currentMenuItem.getName());
-			menuItemPriceView.setText(currentMenuItem.getPrice());
+			menuItemPriceView.setText(currentMenuItem.getFormattedPrice());
+			menuItemOrderButton.setTag(currentMenuItem.getId());
+			
 			return itemView;
-		}
-		
-		
+		}		
 	}
 }

@@ -8,5 +8,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_menu">MenuActivity</string>
     <string name="menu_activity_title">Menu</string>
+    <string name="title_activity_order">OrderActivity</string>
 
 </resources>

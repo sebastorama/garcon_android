@@ -97,6 +97,7 @@ public class MainActivity extends Activity {
 		if(status.equals("success")) {
 			System.out.println("Assigned Table Number: " + this.tableNumber);
 			Intent i = new Intent(this, MenuActivity.class);
+			i.putExtra("table_number", this.tableNumber);
 			startActivity(i);
 			
 		} else {
@@ -148,12 +149,4 @@ public class MainActivity extends Activity {
 		this.getRequestQueue().add(req);
 		
 	}
-	
-//	private class MenuListAdapter extends ArrayAdapter<Menu> {
-//		public MenuListAdapter() {
-//			super(MainActivity.this, R.layout.menu_item_view, this.menuItems);
-//		}
-//		
-//	}
-
 }

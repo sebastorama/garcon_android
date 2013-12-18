@@ -21,5 +21,16 @@ public class MenuItem {
 	
 	public String getPrice() {
 		return this.price;
-	}	
+	}
+	
+	public String getFormattedPrice() {
+		String formattedPrice = "$";
+		for(int i = 0; i < this.price.length(); i++) {
+			if(this.price.length() - i == 2) {
+				formattedPrice += ".";
+			}
+			formattedPrice += this.price.charAt(i);
+		}
+		return formattedPrice;
+	}
 }

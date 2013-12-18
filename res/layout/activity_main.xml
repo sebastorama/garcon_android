@@ -9,7 +9,7 @@
     tools:context=".MainActivity" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/order_itemName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="2"
@@ -18,8 +18,8 @@
         android:id="@+id/assign_table_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/textView1"
+        android:layout_alignLeft="@+id/order_itemName"
+        android:layout_below="@+id/order_itemName"
         android:layout_marginTop="66dp"
         android:text="@string/assign_table"
         android:onClick="assignTableAPICall"
@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/assign_table_button"
-        android:layout_below="@+id/textView1"
+        android:layout_below="@+id/order_itemName"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="20dp"
         android:ems="10"
